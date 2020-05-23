@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  simple_api:
+    build: simple_api
+    command: python student_age.py
+    ports:
+     - "5000:5000"
+    volumes:
+     - ./web:/api
