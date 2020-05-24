@@ -1,0 +1,31 @@
+---
+- hosts: app-vm
+  remote_user: root
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: install docker-py package
+      pip: name=docker-py
+    
+    - git:
+        repo: 'https://github.com/aurellandry/student-list.git'
+        dest: /home/centos/student-list
+        update: yes
+
+    - name: Deploy app from Docker-compose
+      command: cd /home/centos && docker-compose up -d
+
+    #- name: Build Docker image from Dockerfile
+    #  docker_image:
+    #    name: 4dvop
+    #    path: simple_api
+    #    state: build
+
+    #- name: Running the container
+    #  docker_container:
+    #    image: 4dvop:latest
+    #    path: simple_api
+    #    state: running
+            
+    - name: Check if container is running
+      shell: docker ps
